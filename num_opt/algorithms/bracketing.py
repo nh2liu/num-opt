@@ -31,3 +31,28 @@ def bracket(
         y1, y2 = y2, y3
         s *= k
     raise MaxIterationException
+
+
+@njit
+def fibonacci_search(
+        f: Callable,
+        a: float,
+        b: float,
+        n: int
+    ) -> Tuple[float, float]:
+    '''
+    Fibonacci searches within the interval (a,b) to find a smaller interval.
+    Querys function f a maximum of n times.
+    '''
+    p = (1 + np.sqrt(5)) / 2 - 1
+    x2 = (1 - p) * a + p * b
+    y2 = f(x2)
+    for i in range(n - 1):
+        x1 = p * a + (1 - p) * b
+        y1 = f(x1)
+        if y1 < y2:
+            b = x2
+            x2, y2 = x1, y1
+        else:
+            a, b = b, x1
+    return (a, b) if a < b else (b, a)
