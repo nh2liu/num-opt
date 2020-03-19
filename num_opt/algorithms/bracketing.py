@@ -38,8 +38,7 @@ def fibonacci_search(
         f: Callable,
         a: float,
         b: float,
-        n: int
-    ) -> Tuple[float, float]:
+        n: int) -> Tuple[float, float]:
     '''
     Fibonacci searches within the interval (a,b) to find a smaller interval.
     Querys function f a maximum of n times.
@@ -56,3 +55,47 @@ def fibonacci_search(
         else:
             a, b = b, x1
     return (a, b) if a < b else (b, a)
+
+@njit
+def bisection_find_opposite(
+    f: Callable,
+    a: float,
+    b: float,
+    alpha: float = 0.1,
+    max_iter: int = 100) -> Tuple[float, float]:
+    '''
+    Finds an interval containing (a,b) with bounds having
+    different signs.
+    '''
+    ya, yb = f(a), f(b)
+    for i in range(max_iter):
+        if np.sign(ya) != np.sign(yb):
+            return (a, b)
+        if b < 0:
+            a *= 1 - alpha
+            ya = f(a)
+        else:
+            b *= 1 + alpha
+            yb = f(b)
+    raise MaxIterationException
+
+@njit
+def bisection_root_finder(
+    f: Callable,
+    a: float,
+    b: float,
+    epsilon: float = 0.01) -> Tuple[float, float]:
+    '''
+    Finds a root within (a,b) using a bisection algorithm.
+    '''
+    ya, yb = f(a), f(b)
+    if np.sign(ya) == np.sign(yb):
+        return (a, b)
+    while b - a > epsilon:
+        x_mid = (a + b) / 2
+        y_mid = f(x_mid)
+        if np.sign(y_mid) == np.sign(ya):
+            a = x_mid
+        else:
+            b = x_mid
+    return (a, b)
