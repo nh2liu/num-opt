@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from numpy import log
+
 
 class DualNumber:
     def __init__(self, a: float = 0., b: float = 0.):
@@ -39,6 +41,17 @@ class DualNumber:
 
     def __neg__(self):
         return DualNumber(-self.a, -self.b)
+
+    def __pow__(self, other):
+        if isinstance(other, DualNumber):
+            new_a = self.a ** other.a
+            new_b = new_a * (other.b * log(self.a) + self.b * other.a / self.a)
+            return DualNumber(new_a, new_b)
+        true_pow = self.a ** other
+        return DualNumber(true_pow, true_pow * self.b * other / self.a)
+
+    def __rpow__(self, other):
+        return DualNumber(other, 0.) ** self
 
     def __repr__(self):
         return "D({:2f}, {:2f})".format(self.a, self.b)
