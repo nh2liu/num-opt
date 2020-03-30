@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+
 class DualNumber:
     def __init__(self, a: float = 0., b: float = 0.):
         '''
@@ -16,9 +17,9 @@ class DualNumber:
         if isinstance(other, DualNumber):
             return DualNumber(self.a + other.a, self.b + other.b)
         return DualNumber(self.a + other, self.b)
-    
+
     __radd__ = __add__
-    
+
     def __div__(self, other):
         if isinstance(other, DualNumber):
             return self * other.__inverse()
@@ -33,7 +34,7 @@ class DualNumber:
             new_b = self.b * other.a + self.a * other.b
             return DualNumber(new_a, new_b)
         return DualNumber(self.a * other, self.b)
-    
+
     __rmul__ = __mul__
 
     def __neg__(self):
@@ -46,6 +47,6 @@ class DualNumber:
         if isinstance(other, DualNumber):
             return DualNumber(self.a - other.a, self.b - other.b)
         return DualNumber(self.a - other, self.b)
-    
+
     def __rsub__(self, other):
         return DualNumber(other, 0.) - self
