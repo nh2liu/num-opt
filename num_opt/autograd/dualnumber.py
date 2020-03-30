@@ -45,10 +45,11 @@ class DualNumber:
     def __pow__(self, other):
         if isinstance(other, DualNumber):
             new_a = self.a ** other.a
-            new_b = new_a * (other.b * log(self.a) + self.b * other.a / self.a)
+            new_b = other.a * (self.a ** (other.a - 1)) * \
+                b + log(self.a) * new_a * other.b
             return DualNumber(new_a, new_b)
-        true_pow = self.a ** other
-        return DualNumber(true_pow, true_pow * self.b * other / self.a)
+        return DualNumber(self.a ** other,
+                          other * (self.a ** (other - 1) * self.b))
 
     def __rpow__(self, other):
         return DualNumber(other, 0.) ** self
