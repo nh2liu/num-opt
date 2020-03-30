@@ -16,7 +16,7 @@ def grad(f: Callable) -> Callable:
         args[i] = v
         return partial
     
-    def f_prime(*args) -> tuple:
+    def f_prime(*args) -> np.array:
         args = list(args)
         g = np.empty(len(args))
         for i in range(len(args)):
