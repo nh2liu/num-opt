@@ -35,7 +35,7 @@ class DualNumber:
             new_a = self.a * other.a
             new_b = self.b * other.a + self.a * other.b
             return DualNumber(new_a, new_b)
-        return DualNumber(self.a * other, self.b)
+        return DualNumber(self.a * other, self.b * other)
 
     __rmul__ = __mul__
 
