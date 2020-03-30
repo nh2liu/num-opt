@@ -1,5 +1,5 @@
 import unittest
-from .util import check_float, parabola
+from .util import check_float, parabola, multivar
 
 from ..autograd.dualnumber import DualNumber
 from ..autograd.forward import grad as fgrad
@@ -33,7 +33,7 @@ class DualNumberTest(unittest.TestCase):
     def test_float(self):
         mult = 3.1 * DUAL_1
         self.assertTrue(check_float(mult.a, 3.1))
-        self.assertTrue(check_float(mult.b, 2.0))
+        self.assertTrue(check_float(mult.b, 6.2))
 
         mult = 14 + DUAL_3
         self.assertTrue(check_float(mult.a, 16))
@@ -41,7 +41,16 @@ class DualNumberTest(unittest.TestCase):
 
 class ForwardAutoTest(unittest.TestCase):
     def test_parabola(self):
-        self.parabola_grad = fgrad(parabola.py_func)
-        self.assertTrue(check_float(self.parabola_grad(1), -18))
-        self.assertTrue(check_float(self.parabola_grad(10), 0))
-        self.assertTrue(check_float(self.parabola_grad(11), 2))
+        g = fgrad(parabola.py_func)
+        self.assertTrue(check_float(g(1), -18))
+        self.assertTrue(check_float(g(10), 0))
+        self.assertTrue(check_float(g(11.3), 2.6))
+    
+    def test_multi(self):
+        g = fgrad(multivar.py_func)
+        g_x, g_y = g(0, 1)
+        self.assertTrue(check_float(g_x, 11))
+        self.assertTrue(check_float(g_y, 1))
+        g_x, g_y = g(-1.3, 4.2)
+        self.assertTrue(check_float(g_x, 11.6))
+        self.assertTrue(check_float(g_y, -0.3))
