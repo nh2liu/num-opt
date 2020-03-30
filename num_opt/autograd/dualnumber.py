@@ -1,14 +1,15 @@
+from __future__ import annotations
 
 class DualNumber:
-    def __init__(self, a: float, b: float):
+    def __init__(self, a: float = 0., b: float = 0.):
         '''
         Dual number of form a + b\epsilon
         '''
         self.a = a
         self.b = b
 
-    def __inverse(self, other: DualNumber):
-        # Inverse of the dual number
+    def __inverse(self):
+        # Inverse of the dual number, unstable if a is very small
         return DualNumber(1 / self.a, -self.b / (self.a * self.a))
 
     def __add__(self, other: DualNumber):
@@ -24,6 +25,9 @@ class DualNumber:
 
     def __neg__(self):
         return DualNumber(-self.a, -self.b)
+
+    def __repr__(self):
+        return "D({:2f}, {:2f})".format(self.a, self.b)
 
     def __sub__(self, other: DualNumber):
         return DualNumber(self.a - other.a, self.b - other.b)
