@@ -19,5 +19,5 @@ def check_float(a: float, b: float, tol: float = 0.00001):
     if abs(a - b) <= tol:
         return True
     else:
-        print(f"{a}, {b} do not fall within {tol}.")
+        print(f"{a}, {b} does not fall within {tol}.")
         return False
