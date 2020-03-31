@@ -1,5 +1,5 @@
 import unittest
-from .util import check_float, parabola, multivar
+from .util import check_float, parabola, multivar, const_ret
 
 from ..autograd.dualnumber import DualNumber
 from ..autograd.forward import grad as fgrad
@@ -40,6 +40,13 @@ class DualNumberTest(unittest.TestCase):
         self.assertTrue(check_float(mult.b, 6))
 
 class ForwardAutoTest(unittest.TestCase):
+    def test_basic(self):
+        g = fgrad(const_ret.py_func)
+        g_x, g_y, g_z = g(1, -4, -3)
+        self.assertTrue(check_float(g_x, 0))
+        self.assertTrue(check_float(g_y, 0))
+        self.assertTrue(check_float(g_z, 0))
+    
     def test_parabola(self):
         g = fgrad(parabola.py_func)
         self.assertTrue(check_float(g(1), -18))
