@@ -73,3 +73,33 @@ class DualNumber:
 
     def __rsub__(self, other):
         return DualNumber(other, 0.) - self
+
+    def __eq__(self, other):
+        if isinstance(other, DualNumber):
+            return (self.a, self.b) == (other.a, other.b)
+        return self.a == other
+
+    def __ne__(self, other):
+        if isinstance(other, DualNumber):
+            return (self.a, self.b) != (other.a, other.b)
+        return self.a != other
+
+    def __lt__(self, other):
+        if isinstance(other, DualNumber):
+            return ((self.a, self.b) < (other.a, other.b))
+        return self.a < other
+
+    def __le__(self, other):
+        if isinstance(other, DualNumber):
+            return ((self.a, self.b) <= (other.a, other.b))
+        return self.a <= other
+
+    def __gt__(self, other):
+        if isinstance(other, DualNumber):
+            return ((self.a, self.b) > (other.a, other.b))
+        return self.a > other
+
+    def __ge__(self, other):
+        if isinstance(other, DualNumber):
+            return ((self.a, self.b) >= (other.a, other.b))
+        return self.a >= other
