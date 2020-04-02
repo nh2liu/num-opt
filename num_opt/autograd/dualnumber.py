@@ -55,7 +55,7 @@ class DualNumber:
         if isinstance(other, DualNumber):
             new_a = self.a ** other.a
             new_b = other.a * (self.a ** (other.a - 1)) * \
-                b + np.log(self.a) * new_a * other.b
+                self.b + np.log(self.a) * new_a * other.b
             return DualNumber(new_a, new_b)
         return DualNumber(self.a ** other,
                           other * (self.a ** (other - 1) * self.b))
