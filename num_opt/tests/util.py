@@ -18,6 +18,10 @@ PARABOLA_MIN = 10
 def multivar(x, y):
     return x * (10 + x + y) + y + 1
 
+@njit
+def const_ret(x, y, z):
+    return 4
+
 # Actual test helpers.
 def check_float(a: float, b: float, tol: float = 0.00001):
     if abs(a - b) <= tol:

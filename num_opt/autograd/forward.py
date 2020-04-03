@@ -11,7 +11,14 @@ def grad(f: Callable) -> Callable:
         # Runs f() once to calculate the ith gradient
         v = args[i]
         args[i] = DualNumber(v, 1.)
-        partial = f(*args).b
+        f_ret = f(*args)
+        if isinstance(f_ret, DualNumber):
+            partial = f_ret.b
+        else:
+            # If the return value is not a dual number,
+            # it means the function return value is not dependent
+            # on the arguments.
+            partial = 0
         # Resetting the args
         args[i] = v
         return partial
